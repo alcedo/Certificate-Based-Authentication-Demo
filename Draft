@@ -1,0 +1,31 @@
+1. core concept: i want to build a Certificate-based authentication demo app. a cert based auth app is a method where a client uses a digital certificate to prove its identity to a server when calling an API.
+
+the demo app should contain the server with a Hello World API exposed so that a client can call it with the correct cert base authentication
+
+the hello world API will verify if the cert is presented correctly and returns a success message if the client has succesfully verified itself to the server.
+
+the demo app should also contain demo client code on how to connect to the server, including how it should generate its own self signed cert and present it to the user. 
+
+the demo app should have a readme.md file teaching users how to use the app in order to learn the process in which a client can authenticate with a server using a cert. 
+
+through this demo app, developers can learn under the hood of how a certificate base authentication method when callin API works.
+
+2. 
+a server app with an exposed API that requires a cert based authentication mechanism for clients to call.
+
+a client app that can call the server API with a cert based authentication mechanism.
+
+3. target users: developers trying to learn how to implement a cert based authentication mechanism in their app.
+
+4. tech stack preferences: 
+- server app: node.js
+- client app: node.js
+- api: restful api
+- cert: self signed cert
+- auth mechanism: cert based authentication
+
+5. application hasn't been initialised yet. we are now inside the proj folder.
+
+
+
+

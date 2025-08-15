@@ -1,0 +1,42 @@
+{
+  "name": "certificate-based-authentication-demo",
+  "version": "1.0.0",
+  "description": "A complete demonstration of certificate-based authentication using Node.js and Express",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "setup": "node scripts/setup-certificates.js",
+    "start:server": "node server/index.js",
+    "start:client": "node client/index.js",
+    "clean": "rm -rf certs/"
+  },
+  "keywords": [
+    "certificate",
+    "authentication",
+    "tls",
+    "mutual-tls",
+    "https",
+    "nodejs",
+    "express",
+    "demo"
+  ],
+  "author": "Certificate Demo",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.0",
+    "winston": "^3.8.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "supertest": "^6.3.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!node_modules/**",
+      "!coverage/**"
+    ]
+  }
+}
