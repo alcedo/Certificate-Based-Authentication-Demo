@@ -80,17 +80,149 @@ npm test
 
 ## Usage
 
-Once certificates are generated:
+### 1. Start the Server
 
-1. **Start the HTTPS server**:
-   ```bash
-   npm run start:server
-   ```
+Start the HTTPS server with certificate validation:
 
-2. **Test client authentication**:
-   ```bash
-   npm run start:client
-   ```
+```bash
+npm run start:server
+```
+
+The server will start on `https://localhost:8443` with:
+- TLS/SSL encryption enabled
+- Client certificate validation
+- Certificate whitelist verification
+
+### 2. Generate a Client Certificate
+
+If you need to generate additional client certificates beyond the default ones:
+
+```bash
+# Generate a new client certificate (requires OpenSSL)
+openssl genrsa -out certs/new-client-key.pem 2048
+openssl req -new -key certs/new-client-key.pem -out certs/new-client.csr -subj "/C=US/ST=State/L=City/O=Organization/CN=New Client"
+openssl x509 -req -in certs/new-client.csr -CA certs/ca-cert.pem -CAkey certs/ca-key.pem -CAcreateserial -out certs/new-client-cert.pem -days 365 -sha256
+rm certs/new-client.csr
+```
+
+Or use the existing client certificate generated during setup:
+- `certs/client-cert.pem` (certificate)
+- `certs/client-key.pem` (private key)
+
+### 3. Add Client Certificate to Whitelist
+
+To allow a client certificate to access the server, you need to add its fingerprint to the whitelist:
+
+#### Step 3.1: Get the Certificate Fingerprint
+
+```bash
+# Get SHA256 fingerprint of your client certificate
+openssl x509 -noout -fingerprint -sha256 -in certs/client-cert.pem
+```
+
+This will output something like:
+```
+SHA256 Fingerprint=4B:3F:84:E6:C7:36:97:2D:41:AB:5F:B1:DA:F7:8B:D6:A9:A3:9D:92
+```
+
+#### Step 3.2: Update config/whitelist.json
+
+Add the certificate to `config/whitelist.json`:
+
+```json
+{
+  "whitelistedCertificates": [
+    {
+      "fingerprint": "4B:3F:84:E6:C7:36:97:2D:41:AB:5F:B1:DA:F7:8B:D6:A9:A3:9D:92",
+      "description": "Demo client certificate",
+      "subject": "Demo Client",
+      "organization": "Certificate Demo",
+      "addedDate": "2025-08-15",
+      "enabled": true
+    },
+    {
+      "fingerprint": "YOUR_NEW_CERTIFICATE_FINGERPRINT_HERE",
+      "description": "New client certificate",
+      "subject": "New Client",
+      "organization": "Your Organization",
+      "addedDate": "2025-08-15",
+      "enabled": true
+    }
+  ],
+  "whitelistEnabled": true,
+  "hashAlgorithm": "sha256"
+}
+```
+
+**Note**: The server automatically reloads the whitelist configuration, so you don't need to restart it after updating the file.
+
+### 4. Test the /api/hello Endpoint
+
+Once your client certificate is whitelisted, test the API endpoint:
+
+#### Option A: Using curl (Recommended)
+
+```bash
+# Test with client certificate authentication
+curl -v \
+  --cert certs/client-cert.pem \
+  --key certs/client-key.pem \
+  --cacert certs/ca-cert.pem \
+  https://localhost:8443/api/hello
+```
+
+**Expected Response (Success)**:
+```json
+{
+  "message": "Hello! Client certificate authenticated successfully.",
+  "clientCertificate": {
+    "subject": "Demo Client",
+    "issuer": "Demo CA",
+    "serialNumber": "...",
+    "fingerprint": "4B:3F:84:E6:C7:36:97:2D:41:AB:5F:B1:DA:F7:8B:D6:A9:A3:9D:92"
+  }
+}
+```
+
+**Expected Response (Certificate Not Whitelisted)**:
+```json
+{
+  "error": "Client certificate not whitelisted",
+  "fingerprint": "XX:XX:XX:..."
+}
+```
+
+#### Option C: Test Without Certificate (Should Fail)
+
+```bash
+# This should return an error since no client certificate is provided
+curl -v --cacert certs/ca-cert.pem https://localhost:8443/api/hello
+```
+
+### Whitelist Management
+
+#### Enable/Disable Whitelist
+
+To temporarily disable certificate whitelisting, set `whitelistEnabled` to `false` in `config/whitelist.json`:
+
+```json
+{
+  "whitelistEnabled": false,
+  ...
+}
+```
+
+#### Disable Specific Certificates
+
+To temporarily disable a specific certificate without removing it from the whitelist:
+
+```json
+{
+  "fingerprint": "4B:3F:84:E6:C7:36:97:2D:41:AB:5F:B1:DA:F7:8B:D6:A9:A3:9D:92",
+  "enabled": false,
+  ...
+}
+```
 
 ## Troubleshooting
 

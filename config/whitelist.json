@@ -1,0 +1,14 @@
+{
+  "whitelistedCertificates": [
+    {
+      "fingerprint": "23:41:76:2E:10:AE:48:75:B4:64:F0:96:9C:77:CA:37:2E:B7:19:8D:4E:7F:71:D7:DE:96:B5:FA:EF:F5:0B:46",
+      "description": "Demo client certificate",
+      "subject": "Demo Client",
+      "organization": "Certificate Demo",
+      "addedDate": "2025-08-15",
+      "enabled": true
+    }
+  ],
+  "whitelistEnabled": true,
+  "hashAlgorithm": "sha256"
+}

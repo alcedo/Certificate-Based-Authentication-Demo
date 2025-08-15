@@ -12,15 +12,18 @@
   - [x] 1.7 Add proper file permissions and directory structure
   - [x] 1.8 Verify all certificate generation tests pass
 
-- [ ] 2. HTTPS Server with Certificate Validation
-  - [ ] 2.1 Write tests for server certificate validation middleware
-  - [ ] 2.2 Initialize Node.js project with Express.js and dependencies
-  - [ ] 2.3 Create HTTPS server configuration with client certificate requirements
-  - [ ] 2.4 Implement certificate validation middleware
-  - [ ] 2.5 Add structured logging with Winston
-  - [ ] 2.6 Implement error handling for certificate validation failures
-  - [ ] 2.7 Create server startup script and configuration
-  - [ ] 2.8 Verify all server tests pass
+- [x] 2. HTTPS Server with Certificate Validation
+  - [x] 2.1 Write tests for server certificate validation middleware
+  - [x] 2.2 Initialize Node.js project with Express.js and dependencies
+  - [x] 2.3 Create HTTPS server configuration with client certificate requirements
+  - [x] 2.4 Implement certificate validation middleware
+  - [x] 2.5 Add structured logging with Winston
+  - [x] 2.6 Implement error handling for certificate validation failures
+  - [x] 2.7 Create server startup script and configuration
+  - [x] 2.8 Verify all server tests pass
+  - [x] 2.9 Server certificate middleware must be able to verify a whitelisted client certificate file that is provided in a .pem format
+  - [x] 2.10 Write tests to check that a client .pem file is whitelisted, and subsequently the server middle ware will check based on its whitelisted list.
+
 
 - [ ] 3. Hello World API Endpoint
   - [ ] 3.1 Write tests for authenticated API endpoint
