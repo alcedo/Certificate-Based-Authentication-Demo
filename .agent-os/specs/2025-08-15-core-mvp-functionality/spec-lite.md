@@ -1,0 +1,3 @@
+# Spec Summary (Lite)
+
+Implement the foundational certificate-based authentication system with automated certificate generation, secure HTTPS server, and demo client application. This MVP will provide developers with a complete working example of mutual TLS authentication that they can run locally and learn from, including certificate generation scripts, authenticated API endpoint, and proper error handling for educational purposes.
